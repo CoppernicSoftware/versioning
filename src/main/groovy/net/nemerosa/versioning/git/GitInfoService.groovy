@@ -12,6 +12,8 @@ import org.eclipse.jgit.lib.Ref
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 
+import java.util.regex.Matcher
+
 import static org.eclipse.jgit.lib.Constants.R_TAGS
 
 class GitInfoService implements SCMInfoService {
@@ -117,6 +119,8 @@ class GitInfoService implements SCMInfoService {
                     dirty: isGitTreeDirty(gitDir),
                     tag: tag,
                     shallow: shallow,
+                    versionName: getVersionName(grgit),
+                    versionCode: getVersionCode(grgit),
             )
         }
     }
@@ -168,4 +172,49 @@ class GitInfoService implements SCMInfoService {
     String getBranchTypeSeparator() {
         '/'
     }
+
+    static String getVersionName(Grgit grgit) {
+        String name = grgit.repository.jgit.repository.getBranch()
+        String res = ""
+        def tags = grgit.repository.jgit.repository.getTags()
+        //println tags
+        tags.each { String k, Ref v ->
+            // If several tags are matching the commit where we are, we are getting the tag that
+            // has the less '-' in its name
+            if (v.getObjectId().name() == name
+                    && (res.isEmpty() || res.count("-") >= k.count("-"))) {
+                res = k
+            }
+        }
+        if (res.isEmpty()) {
+            res = name
+        }
+        // Some tags contains a '/', we replace it by the next letter Uppercase
+        return res.replaceAll(/\/\w/) { it[1].toUpperCase() }
+    }
+
+    static int getVersionCode(Grgit grgit) {
+        String code = getVersionCodeFromName(getVersionName(grgit))
+        int ret = 1
+        try {
+            ret = code.toInteger()
+        } catch (NumberFormatException ignore) {
+            //println "Version code is ${code}, use $ret as version code"
+        }
+        return ret
+    }
+
+    static String getVersionCodeFromName(String name) {
+        Matcher m = (name =~ '([0-9]+)[.]([0-9]+)[.]([0-9]+)')
+        if (m.find()) {
+            int n1 = Integer.parseInt(m.group(1))
+            int n2 = Integer.parseInt(m.group(2))
+            int n3 = Integer.parseInt(m.group(3))
+            int n = (n1 * 10000) + (n2 * 100) + n3
+            return "$n"
+        } else {
+            return name
+        }
+    }
+
 }

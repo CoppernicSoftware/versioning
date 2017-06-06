@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        maven { url 'http://arti-01:8081/artifactory/plugins-release' }
+    }
+    dependencies {
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+    }
+}
+
 /**
  * Plug-in development
  */
@@ -12,12 +22,13 @@ plugins {
 }
 
 apply plugin: 'groovy'
+apply plugin: "com.jfrog.artifactory"
 
 /**
  * Meta information
  */
 
-group = 'net.nemerosa'
+group = 'fr.coppernic.gradle.plugin'
 version = versioning.info.display
 
 /**
@@ -87,4 +98,29 @@ task wrapper(type: Wrapper) {
 test {
   environment "GIT_TEST_BRANCH", "feature/456-cute"
   environment "SVN_TEST_BRANCH", "feature-456-cute"
+}
+
+try {
+    // Configuration of artifactory publish
+    artifactory {
+        contextUrl = "${artifactory_contextUrl}"
+        //The base Artifactory URL if not overridden by the publisher/resolver
+        publish {
+            repository {
+                repoKey = 'plugins-release-local'
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+                maven = true
+            }
+            defaults {
+                publications('plugin')
+                publishArtifacts = true
+                publishPom = true
+            }
+        }
+    }
+    // Task dependency
+    artifactoryPublish.dependsOn(['build'])
+} catch (MissingPropertyException ignore) {
+    println ignore
 }

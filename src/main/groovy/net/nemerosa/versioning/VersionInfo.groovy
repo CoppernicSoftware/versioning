@@ -20,6 +20,8 @@ class VersionInfo {
     String base = ''
     String build = ''
     String tag = null
+    String versionCode = 0
+    String versionName = "dev"
     boolean dirty = false
     boolean shallow = false
 

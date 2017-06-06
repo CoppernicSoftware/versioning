@@ -48,11 +48,11 @@ class SVNInfoService implements SCMInfoService {
             String revision = info.committedRevision.number as String
             // OK
             new SCMInfo(
-                    branch,
-                    revision,
-                    revision,
-                    null,
-                    isWorkingCopyDirty(project.projectDir, clientManager)
+                    branch: branch,
+                    commit: revision,
+                    abbreviated: revision,
+                    dirty: isWorkingCopyDirty(project.projectDir, clientManager),
+                    tag: null
             )
         }
     }

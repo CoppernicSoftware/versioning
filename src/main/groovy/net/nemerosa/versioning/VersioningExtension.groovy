@@ -248,6 +248,8 @@ class VersioningExtension {
                 tag: scmInfo.tag,
                 dirty: scmInfo.dirty,
                 shallow: scmInfo.shallow,
+                versionName : scmInfo.versionName,
+                versionCode : scmInfo.versionCode,
         )
     }
 

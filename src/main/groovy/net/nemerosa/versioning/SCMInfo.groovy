@@ -11,7 +11,10 @@ class SCMInfo {
     String commit
     String abbreviated
     String tag
+    String versionName = ""
+    String versionCode = ""
     boolean dirty
     boolean shallow
+
 
 }
