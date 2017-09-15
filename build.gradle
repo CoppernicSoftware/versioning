@@ -2,6 +2,19 @@
  * Plug-in development
  */
 
+/*
+buildscript {
+    repositories {
+        maven { url 'http://arti-01:8081/artifactory/plugins-release' }
+        mavenCentral()
+    }
+    dependencies {
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0"
+    }
+}
+*/
+
 plugins {
    id 'nu.studer.plugindev' version '1.0.3'
    id 'com.jfrog.bintray' version '1.3.1'
@@ -9,15 +22,20 @@ plugins {
      * Versioning applied to itself
      */
     id 'net.nemerosa.versioning' version '2.5.0'
+    id 'groovy'
+    id 'com.gradle.plugin-publish' version '0.9.7'
 }
 
-apply plugin: 'groovy'
+/*
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+*/
 
 /**
  * Meta information
  */
 
-group = 'net.nemerosa'
+group = 'coppernic'
 version = versioning.info.display
 
 /**
@@ -37,9 +55,6 @@ dependencies {
     testCompile "junit:junit:4.12"
     testCompile "commons-lang:commons-lang:2.6"
     testCompile "commons-io:commons-io:2.5"
-
-
-
 }
 
 /**
@@ -57,6 +72,20 @@ plugindev {
     projectUrl 'https://github.com/nemerosa/versioning'
     projectInceptionYear '2015'
     done()
+}
+
+pluginBundle {
+    website = 'https://github.com/CoppernicSoftware/versioning'
+    vcsUrl = 'https://github.com/CoppernicSoftware/versioning'
+    description = 'Gradle plug-in that computes version information from the SCM'
+    tags = ['gradle', 'plugin', 'scm', 'git', 'svn', 'version']
+
+    plugins {
+        gitExtractorPlugin {
+            id = 'fr.coppernic.versionning'
+            displayName = 'Versionning plugin'
+        }
+    }
 }
 
 /**
@@ -88,3 +117,39 @@ test {
   environment "GIT_TEST_BRANCH", "feature/456-cute"
   environment "SVN_TEST_BRANCH", "feature-456-cute"
 }
+
+/*
+
+publishing {
+    publications {
+        art(MavenPublication) {
+            groupId = 'fr.coppernic.gradle.plugin'
+            version = project.version
+            artifactId = "versionning"
+
+            artifact jar
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "http://arti-01:8081/artifactory"
+    publish {
+        repository {
+            repoKey = "plugins-release-coppernic"
+            username = project.hasProperty("artifactory_user")?project.artifactory_user:""
+            password = project.hasProperty("artifactory_password")?project.artifactory_password:""
+            maven = true
+        }
+        defaults {
+            publications('art')
+            publishArtifacts = true
+            publishPom = true
+            publishBuildInfo = false
+        }
+    }
+}
+
+project.artifactoryPublish.dependsOn(['build'])
+
+*/

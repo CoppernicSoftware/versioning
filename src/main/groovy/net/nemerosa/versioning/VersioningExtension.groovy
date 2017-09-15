@@ -6,6 +6,8 @@ import net.nemerosa.versioning.svn.SVNInfoService
 import org.gradle.api.GradleException
 import org.gradle.api.Project
 
+import java.util.regex.Matcher
+
 class VersioningExtension {
 
     /**
@@ -253,6 +255,7 @@ class VersioningExtension {
                 tag: scmInfo.tag,
                 dirty: scmInfo.dirty,
                 shallow: scmInfo.shallow,
+                versionCode : computeVersionCode(versionDisplay),
         )
     }
 
@@ -306,6 +309,30 @@ class VersioningExtension {
             return scmInfoService
         } else {
             throw new GradleException("Unknown SCM info service: ${type}")
+        }
+    }
+
+    private int computeVersionCode(String versionName){
+        String code = getVersionCodeFromName(versionName)
+        int ret = 1
+        try {
+            ret = code.toInteger()
+        } catch (NumberFormatException ignore) {
+            project?.logger?.debug("Version code is ${code}, use $ret as version code")
+        }
+        return ret
+    }
+
+    static String getVersionCodeFromName(String name) {
+        Matcher m = (name =~ '([0-9]+)[.]([0-9]+)[.]([0-9]+)')
+        if (m.find()) {
+            int n1 = Integer.parseInt(m.group(1))
+            int n2 = Integer.parseInt(m.group(2))
+            int n3 = Integer.parseInt(m.group(3))
+            int n = (n1 * 10000) + (n2 * 100) + n3
+            return "$n"
+        } else {
+            return name
         }
     }
 }
