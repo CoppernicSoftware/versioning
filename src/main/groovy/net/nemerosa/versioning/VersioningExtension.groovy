@@ -94,12 +94,12 @@ class VersioningExtension {
     /**
      * Display mode
      */
-    def displayMode = 'full'
+    def displayMode = 'base'
 
     /**
      * Release mode
      */
-    def releaseMode = 'tag'
+    def releaseMode = 'snapshot'
 
     /**
      * True if it's release build. Default is true, and branch shoud be in releases-set.
@@ -117,7 +117,8 @@ class VersioningExtension {
      * Closure that takes a version (<i>display</i> or <i>full</i>) and processes it to produce a <i>dirty</i>
      * indicator. By default, it appends the {@link #dirtySuffix} value to the version.
      */
-    Closure<String> dirty = { version -> "${version}${dirtySuffix}" }
+    //Closure<String> dirty = { version -> "${version}${dirtySuffix}" }
+    Closure<String> dirty = { version -> "${version}" }
 
     /**
      * Default dirty suffix
