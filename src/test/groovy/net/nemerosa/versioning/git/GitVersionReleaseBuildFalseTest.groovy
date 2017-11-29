@@ -18,6 +18,11 @@ class GitVersionReleaseBuildFalseTest {
         def wd = File.createTempDir('git', '')
         def project = ProjectBuilder.builder().withProjectDir(wd).build()
         new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
         project.versioning {
             releaseBuild = false
         }
@@ -52,6 +57,11 @@ class GitVersionReleaseBuildFalseTest {
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -104,6 +114,11 @@ class GitVersionReleaseBuildFalseTest {
 
                 def project = ProjectBuilder.builder().withProjectDir(detached).build()
                 new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
                 project.versioning {
                     releaseBuild = false
                 }
@@ -152,6 +167,11 @@ class GitVersionReleaseBuildFalseTest {
             def subproject = ProjectBuilder.builder().withParent(project).withProjectDir(subdir).build()
             new VersioningPlugin().apply(subproject)
             subproject.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            subproject.versioning {
                 releaseBuild = false
             }
             VersionInfo info = subproject.versioning.info as VersionInfo
@@ -196,6 +216,11 @@ class GitVersionReleaseBuildFalseTest {
 
                 def project = ProjectBuilder.builder().withProjectDir(detached).build()
                 new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
                 project.versioning {
                     releaseBuild = false
                 }
@@ -235,6 +260,11 @@ class GitVersionReleaseBuildFalseTest {
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             def task = project.tasks.getByName('versionDisplay') as VersionDisplayTask
@@ -258,6 +288,11 @@ class GitVersionReleaseBuildFalseTest {
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -299,6 +334,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -343,6 +383,11 @@ CUSTOM_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -390,6 +435,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -427,6 +477,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 displayMode = 'full'
@@ -467,6 +522,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 displayMode = 'snapshot'
             }
@@ -505,6 +565,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 displayMode = 'snapshot'
@@ -546,6 +611,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 displayMode = 'base'
             }
@@ -584,6 +654,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 displayMode = { branchType, branchId, base, build, full, extension ->
@@ -626,6 +701,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -664,6 +744,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -704,6 +789,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -747,6 +837,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -792,6 +887,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -835,6 +935,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -881,6 +986,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -921,6 +1031,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -958,6 +1073,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
@@ -998,6 +1118,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
                 snapshot = '-DEV'
@@ -1036,6 +1161,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 releaseMode = { nextTag, lastTag, currentTag, extension -> "${nextTag}-PREVIEW" }
@@ -1077,6 +1207,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
             }
@@ -1117,6 +1252,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
@@ -1160,6 +1300,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 releaseMode = { nextTag, lastTag, currentTag, extension -> "${nextTag}-PREVIEW" }
             }
@@ -1201,6 +1346,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
             }
@@ -1241,6 +1391,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 releaseMode = 'snapshot'
@@ -1284,6 +1439,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 releaseMode = { nextTag, lastTag, currentTag, extension -> "${nextTag}-PREVIEW" }
             }
@@ -1326,6 +1486,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -1366,6 +1531,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -1411,6 +1581,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -1451,6 +1626,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 dirtySuffix = '-dev'
@@ -1496,6 +1676,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
             }
             VersionInfo info = project.versioning.info as VersionInfo
@@ -1538,6 +1723,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 dirtySuffix = '-DIRTY'
@@ -1588,6 +1778,11 @@ VERSION_VERSIONCODE=1
 
                 def project = ProjectBuilder.builder().withProjectDir(detached).build()
                 new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
                 project.versioning {
                     releaseBuild = false
                 }
@@ -1633,6 +1828,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
             }
@@ -1682,6 +1882,11 @@ VERSION_VERSIONCODE=1
 
                 def project = ProjectBuilder.builder().withProjectDir(detached).build()
                 new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
                 project.versioning {
                     releaseBuild = false
                 }
@@ -1731,6 +1936,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 dirty = { version -> "${version}-DONOTUSE" }
             }
@@ -1768,6 +1978,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 releaseParser = { SCMInfo scmInfo, separator = '/' ->
@@ -1816,6 +2031,11 @@ VERSION_VERSIONCODE=1
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
             project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
+            project.versioning {
                 releaseBuild = false
                 dirtyFailOnReleases = true
             }
@@ -1844,6 +2064,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 branchEnv << 'GIT_TEST_BRANCH'
@@ -1886,6 +2111,11 @@ VERSION_VERSIONCODE=1
             File projectDir = File.createTempDir('project', '')
             def project = ProjectBuilder.builder().withProjectDir(projectDir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 releaseBuild = false
                 gitRepoRootDir = repo.dir.absolutePath
