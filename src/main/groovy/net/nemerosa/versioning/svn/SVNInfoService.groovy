@@ -4,15 +4,20 @@ import net.nemerosa.versioning.SCMInfo
 import net.nemerosa.versioning.SCMInfoService
 import net.nemerosa.versioning.VersioningExtension
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.tmatesoft.svn.core.SVNDepth
 import org.tmatesoft.svn.core.SVNDirEntry
 import org.tmatesoft.svn.core.SVNException
 import org.tmatesoft.svn.core.SVNURL
 import org.tmatesoft.svn.core.auth.BasicAuthenticationManager
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager
 import org.tmatesoft.svn.core.auth.SVNAuthentication
 import org.tmatesoft.svn.core.wc.*
 
 class SVNInfoService implements SCMInfoService {
+
+    private static final Logger LOGGER = Logging.getLogger(this.getClass())
 
     @Override
     SCMInfo getInfo(Project project, VersioningExtension extension) {
@@ -51,6 +56,7 @@ class SVNInfoService implements SCMInfoService {
                     branch,
                     revision,
                     revision,
+                    null,
                     null,
                     isWorkingCopyDirty(project.projectDir, clientManager)
             )
@@ -100,6 +106,15 @@ class SVNInfoService implements SCMInfoService {
 
     @Override
     List<String> getBaseTags(Project project, VersioningExtension extension, String base) {
+        return getLastTags(
+                project,
+                extension,
+                /(${base}\.(\d+))/
+        )
+    }
+
+    @Override
+    List<String> getLastTags(Project project, VersioningExtension extension, String tagPattern) {
         // Gets the client manager
         def clientManager = getClientManager(extension)
         // Gets the SVN information
@@ -120,7 +135,7 @@ class SVNInfoService implements SCMInfoService {
         }
         // Gets the list of tags
         String tagsUrl = "${baseUrl}/tags"
-        println "[version] Getting list of tags from ${tagsUrl}..."
+        LOGGER.info("[version] Getting list of tags from ${tagsUrl}...")
         // Gets the list
         List<SVNDirEntry> entries = []
         try {
@@ -148,9 +163,8 @@ class SVNInfoService implements SCMInfoService {
             it.name
         }
         // Keeping only tags which fit the release pattern
-        def baseTagPattern = /(${base}\.(\d+))/
         return tags.collect { tag ->
-            def m = tag =~ baseTagPattern
+            def m = tag =~ tagPattern
             if (m.find()) {
                 m.group(1)
             } else {
@@ -169,19 +183,38 @@ class SVNInfoService implements SCMInfoService {
      */
     protected static SVNClientManager getClientManager(VersioningExtension extension) {
         def clientManager = SVNClientManager.newInstance()
+        ISVNAuthenticationManager authenticationManager
         if (extension.user && extension.password) {
-            println "[version] Authenticating with ${extension.user}"
-            clientManager.setAuthenticationManager(BasicAuthenticationManager.newInstance(extension.user, extension.password.toCharArray()));
+            LOGGER.info("[version] Authenticating with ${extension.user}")
+            authenticationManager = configureProxy(BasicAuthenticationManager.newInstance(extension.user, extension.password.toCharArray()))
             // The BasicAuthenticationManager trusts the certificates by default
         } else if (extension.trustServerCert) {
-            println "[version] Trusting certificate by default"
-            println "[version] WARNING The `trustServerCert` is now deprecated - and should not be used any longer."
-            clientManager.setAuthenticationManager(BasicAuthenticationManager.newInstance(new SVNAuthentication[0]));
+            LOGGER.info("[version] Trusting certificate by default")
+            LOGGER.warn("[version] WARNING The `trustServerCert` is now deprecated - and should not be used any longer.")
+            authenticationManager = configureProxy(BasicAuthenticationManager.newInstance(new SVNAuthentication[0]))
         } else {
-            println "[version] Using default SVN configuration"
-            clientManager.setAuthenticationManager(SVNWCUtil.createDefaultAuthenticationManager())
+            LOGGER.info("[version] Using default SVN configuration")
+            authenticationManager = SVNWCUtil.createDefaultAuthenticationManager()
         }
+        clientManager.setAuthenticationManager(authenticationManager)
         return clientManager
+    }
+
+    private static BasicAuthenticationManager configureProxy(BasicAuthenticationManager authenticationManager) {
+        def properties= System.properties
+        def proxyHost = properties.getProperty('http.proxyHost')
+        def proxyPort = properties.getProperty('http.proxyPort')
+        def proxyUser = properties.getProperty('http.proxyUser')
+        def proxyPassword = properties.getProperty('http.proxyPassword')
+        if (proxyHost != null && proxyPort != null) {
+            if (proxyUser != null && proxyPassword != null) {
+                authenticationManager.setProxy(proxyHost, proxyPort as int, proxyUser, proxyPassword.toCharArray())
+            } else {
+                authenticationManager.setProxy(proxyHost, proxyPort as int, null, [] as char[])
+            }
+        }
+
+        return authenticationManager
     }
 
 }

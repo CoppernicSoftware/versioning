@@ -313,6 +313,7 @@ VERSION_DISPLAY=master-${headAbbreviated}
 VERSION_FULL=master-${headAbbreviated}
 VERSION_SCM=git
 VERSION_TAG=
+VERSION_LAST_TAG=
 VERSION_DIRTY=false
 VERSION_VERSIONCODE=1
 """ as String
@@ -362,6 +363,7 @@ CUSTOM_DISPLAY=master-${headAbbreviated}
 CUSTOM_FULL=master-${headAbbreviated}
 CUSTOM_SCM=git
 CUSTOM_TAG=
+CUSTOM_LAST_TAG=
 CUSTOM_DIRTY=false
 CUSTOM_VERSIONCODE=1
 """ as String
@@ -411,6 +413,7 @@ VERSION_DISPLAY=master-${headAbbreviated}
 VERSION_FULL=master-${headAbbreviated}
 VERSION_SCM=git
 VERSION_TAG=
+VERSION_LAST_TAG=
 VERSION_DIRTY=false
 VERSION_VERSIONCODE=1
 """ as String

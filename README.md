@@ -93,12 +93,18 @@ Property | Description | Git: `master` | Git: `feature/great` | Git: `release/2.
 `base` | Base version for the display version | `` | `great` | `2.0`
 `display` | Display version | `master` | `great` | `2.0.0`, `2.0.1`, ...
 `tag` (1) | Current tag | (2) | (2) | (2)
+`lastTag` (1) | Last tag | (4) | (4) | (4)
 `dirty` | Current state of the working copy | (3) | (3) | (3)
 
 (1) not supported for Subversion
 (2) will be the name of the current tag if any, or `null` if no tag is associated to the current `HEAD`.
 (3) depends on the state of the working copy the plug-in is applied to. `true` if the working copy contains uncommitted
 files.
+(4) Name of the last tag on the branch. It can be on the current `HEAD` but not
+necessarily - it will be `null` if no previous tag can be found. The last tags are
+matched against the `lastTagPattern` regular expression defined in the configuration. It
+defaults to `(\d+)$`, meaning that we just expect a sequence a digits at the end
+of the tag name.
 
 ### Display version
 
@@ -131,6 +137,9 @@ Displays the version information in the standard output. For example:
 [version] base       = 0.3
 [version] build      = da50c50
 [version] display    = 0.3.0
+[version] tag        =
+[version] lastTag    = 0.2.0
+[version] dirty      = false
 ```
 
 ### `versionFile`
@@ -149,6 +158,9 @@ VERSION_COMMIT=da50c50567073d3d3a7756829926a9590f2644c6
 VERSION_DISPLAY=0.3.0
 VERSION_FULL=release-0.3-da50c50
 VERSION_SCM=git
+VERSION_TAG=
+VERSION_LAST_TAG=0.2.0
+VERSION_DIRTY=false
 ```
 
 This makes this file easy to integrate in a Bash script:
@@ -205,6 +217,14 @@ versioning {
      * Set of eligible branch types for computing a display version from the branch base name
      */
     releases = ['release']
+    /**
+     * Pattern used to match when looking for the last tag. By default, checks for any 
+     * tag having a last part being numeric. At least one numeric grouping
+     * expression is required. The first one will be used to reverse order
+     * the tags in Git.
+     */
+    lastTagPattern = /(\d+)$/
+*/
 }
 ```
 
@@ -217,7 +237,7 @@ staged or not committed.
 When the working copy the version is computed from, the default behaviour is to
 append the `-dirty` suffix to the `display` and `full` version.
 
-This can be customised with the following ettaributes on the `versioning` extension:
+This can be customised with the following attributes on the `versioning` extension:
 
 ```groovy
 versioning {

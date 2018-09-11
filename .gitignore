@@ -7,3 +7,4 @@ userHome
 *.swp
 local.properties
 .gradletasknamecache
+/out
