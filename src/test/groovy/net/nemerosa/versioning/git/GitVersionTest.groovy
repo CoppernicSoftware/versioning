@@ -1967,6 +1967,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             VersionInfo info = project.versioning.info as VersionInfo
             assert info != null
             assert info.build == headAbbreviated
@@ -2001,6 +2006,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             VersionInfo info = project.versioning.info as VersionInfo
             assert info != null
             assert info.build == headAbbreviated
@@ -2034,6 +2044,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             VersionInfo info = project.versioning.info as VersionInfo
             assert info != null
             assert info.build == headAbbreviated
@@ -2069,6 +2084,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 lastTagPattern = /^(\d+)$/
             }
@@ -2108,6 +2128,11 @@ VERSION_VERSIONCODE=1
 
             def project = ProjectBuilder.builder().withProjectDir(repo.dir).build()
             new VersioningPlugin().apply(project)
+            project.versioning {
+                displayMode = 'full'
+                releaseMode = 'tag'
+                dirty = { version -> "${version}${dirtySuffix}" }
+            }
             project.versioning {
                 lastTagPattern = /^(\d+)$/
             }

@@ -25,7 +25,7 @@ version = versioning.info.display
  */
 
 ext {
-    jgitVersion = '4.5.0.201609210915-r'
+    jgitVersion = '4.11.1.201807311124-r'
 }
 
 dependencies {
